@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="movie-details-container">
+
+    <!-- Movie Title and Genre -->
+    <div class="movie-info-top">
+        <h1>{{ movie.title }}</h1>
+        <p><strong>Genre:</strong> {{ movie.genre }}</p>
+    </div>
+
+    <!-- Movie Image -->
+    <div class="movie-poster">
+        <img src="{{ url_for('static', filename='images/' + movie.image_file) }}" alt="{{ movie.title }}">
+    </div>
+
+    <!-- Reviews Section -->
+    <div class="reviews-section">
+        <h2>Reviews</h2>
+        {% if movie.reviews %}
+            <ul class="review-list">
+                {% for review in movie.reviews %}
+                    <li class="review-item">
+                        <strong>{{ review.user.username }}</strong> - {{ review.rating }}/5<br>
+                        {{ review.content }}
+                        <small>{{ review.created_at.strftime('%B %d, %Y') }}</small>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No reviews yet. Be the first to review this movie!</p>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="dashboard-container">
+        <h1>Dashboard</h1>
+
+        <!-- Write a Review Section -->
+        <section class="write-review">
+            <h2>Write a Review</h2>
+            <form method="POST" action="{{ url_for('main.dashboard') }}">
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    <label for="movie">Choose Movie:</label>
+                    <select name="movie_id" id="movie_id" class="form-control">
+                        {% for movie in movies %}
+                            <option value="{{ movie.id }}">{{ movie.title }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="content">Review Content:</label>
+                    {{ form.content(class='form-control', placeholder="Enter") }}
+                </div>
+                <div class="form-group">
+                    <label for="rating">Rating:</label>
+                    {{ form.rating(class='form-control', placeholder="1-5") }}
+                </div>
+                <div class="form-group">
+                    <button type="submit">Submit Review</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Reviews Section -->
+        <section class="your-reviews">
+            <h2>Your Reviews</h2>
+            <ul class="review-list">
+                {% for review in reviews %}
+                <li class="review-item">
+                    <strong>{{ review.movie.title }}</strong><br>
+                    Rating: {{ review.rating }}<br>
+                    {{ review.content }}<br>
+                    <small>Reviewed by {{ review.user.username }} on {{ review.created_at }}</small>
+                    {% if review.user_id == current_user.id %}
+                        <form action="{{ url_for('main.delete_review', review_id=review.id) }}" method="POST">
+                            {{ form.hidden_tag() }}
+                            <button type="submit" class="delete-review">Delete</button>
+                        </form>
+                    {% endif %}
+                </li>
+            {% endfor %}
+
+            </ul>
+        </section>
+    </div>
+{% endblock %}

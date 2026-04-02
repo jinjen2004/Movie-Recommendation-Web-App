@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="home-container">
+        <h1>Welcome to the Movie Recommendation Website</h1>
+        
+        {% if current_user.is_authenticated %}
+            <p>Welcome back, {{ current_user.username }}! You can now add reviews and ratings to movies.</p>
+        {% else %}
+            <p>Please log in or register to add reviews and ratings to movies.</p>
+        {% endif %}
+
+        <h2>Available Movies</h2>
+        
+        <div class="movies-list">
+            {% for movie in movies %}
+                <div class="movie-item">
+                    <img src="{{ url_for('static', filename='images/' + movie.image_file) }}" alt="{{ movie.title }}">
+                    <h3>{{ movie.title }}</h3>
+                    <p><strong>Genre:</strong> {{ movie.genre }}</p>
+                    <p><strong>Rating:</strong> {{ movie.rating }}</p>
+                    <p><strong>Description:</strong> {{ movie.description }}</p>
+                    
+                    <a href="{{ url_for('main.movie_details', movie_id=movie.id) }}">View Reviews</a>
+
+                    {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('main.dashboard', movie_id=movie.id) }}">Add Review</a>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
