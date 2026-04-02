@@ -1,5 +1,4 @@
-Jenell Son, json11@u.rochester.edu (worked alone)
-CSC 210 - Project 2: Advanced Website Application
+Jenell Son
 
 
 Movie Recommendation Website
@@ -43,7 +42,10 @@ Movie Recommendation Website
         with app.app_context():
             db.create_all()
         quit()
-    To run the code:
-        python3 run.py
-    To populate the data (the movies doesn't show until you do this):
+
+- > To run the code:
+  > pip install -r requirements.txt
+    python app.py
+
+- > To populate the data (the movies doesn't show until you do this):
         http://127.0.0.1:5000/populate
